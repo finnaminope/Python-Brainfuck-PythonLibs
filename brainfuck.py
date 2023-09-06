@@ -18,8 +18,7 @@ def evaluate(code):
   code     = cleanup(list(code))
   bracemap = buildbracemap(code)
 
-  cells, codeptr, cellptr = [0], 0, 0
-
+  cells, codeptr, cellptr, codeExecList = [0], 0, 0, []
   while codeptr < len(code):
     command = code[codeptr]
 
@@ -36,12 +35,18 @@ def evaluate(code):
     if command == "-":
       cells[cellptr] = cells[cellptr] - 1 if cells[cellptr] > 0 else 255
 
+    if command =="\":
+      print("Program Trace (ID: " + str(cellptr) + "-" + str(cells[cellptr]) + "-" + str(codeptr) + ") At " + codeptr + " in " + filename + ". This Trace Was Not Called Because of An Error In The Program.")
+      print("This is the Program Code That Was Executed: ")
+      print(codeExecList)
+
     if command == "[" and cells[cellptr] == 0: codeptr = bracemap[codeptr]
     if command == "]" and cells[cellptr] != 0: codeptr = bracemap[codeptr]
     if command == ".": sys.stdout.write(chr(cells[cellptr]))
     if command == ",": cells[cellptr] = ord(getch.getch())
-      
+    
     codeptr += 1
+    codeExecList.append(command)
 
 
 def cleanup(code):
