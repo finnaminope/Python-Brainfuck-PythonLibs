@@ -8,8 +8,8 @@
 import sys
 import getch
 
-def execute(filename):
-  f = open(filename, "r")
+def execute(filenameIn):
+  f = open(filenameIn, "r")
   evaluate(f.read())
   f.close()
 
@@ -35,10 +35,12 @@ def evaluate(code):
     if command == "-":
       cells[cellptr] = cells[cellptr] - 1 if cells[cellptr] > 0 else 255
 
-    if command =="\":
-      print("Program Trace (ID: " + str(cellptr) + "-" + str(cells[cellptr]) + "-" + str(codeptr) + ") At " + codeptr + " in " + filename + ". This Trace Was Not Called Because of An Error In The Program.")
+    if command == "/":
+      filename = sys.argv[1]
+      print("Program Trace (ID: " + str(cellptr) + "-" + str(cells[cellptr]) + "-" + str(codeptr) + ") At " + str(codeptr) + " in " + filename + ". This Trace Was Not Called Because of An Error In The Program.")
       print("This is the Program Code That Was Executed: ")
-      print(codeExecList)
+      for item in codeExecList:
+        print(item, end="")
 
     if command == "[" and cells[cellptr] == 0: codeptr = bracemap[codeptr]
     if command == "]" and cells[cellptr] != 0: codeptr = bracemap[codeptr]
@@ -50,7 +52,7 @@ def evaluate(code):
 
 
 def cleanup(code):
-  return ''.join(filter(lambda x: x in ['.', ',', '[', ']', '<', '>', '+', '-'], code))
+  return ''.join(filter(lambda x: x in ['.', ',', '[', ']', '<', '>', '+', '-', '/'], code))
 
 
 def buildbracemap(code):
@@ -66,8 +68,9 @@ def buildbracemap(code):
 
 
 def main():
-  if len(sys.argv) == 2: execute(sys.argv[1])
-  else: print("Usage:", sys.argv[0], "filename")
+    filename = sys.argv[1]
+    if len(sys.argv) == 2: execute(filename)
+    else: print("Usage:", sys.argv[0], "filename")
 
 if __name__ == "__main__": main()
 
