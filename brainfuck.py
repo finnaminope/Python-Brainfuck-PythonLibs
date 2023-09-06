@@ -36,6 +36,12 @@ def evaluate(code):
       if command == "-":
         cells[cellptr] = cells[cellptr] - 1 if cells[cellptr] > 0 else 255
 
+      if command == "i":
+        queue.append(cells[cellptr])
+
+      if command = "o":
+        queue.pop(0)
+      
       if command == "/":
         filename = sys.argv[1]
         print("Program Trace (ID: " + str(cellptr) + "-" + str(cells[cellptr]) + "-" + str(codeptr) + ") At " + str(codeptr) + " in " + filename + ". This Trace Was Not Called Because of An Error In The Program.")
@@ -56,7 +62,7 @@ def evaluate(code):
 
 
 def cleanup(code):
-  return ''.join(filter(lambda x: x in ['.', ',', '[', ']', '<', '>', '+', '-', '/', 'i', 'o'], code))
+  return ''.join(filter(lambda x: x in ['.', ',', '[', ']', '<', '>', '+', '-', '/', 'i', 'o', "(", ")"], code))
 
 
 def buildbracemap(code):
