@@ -48,11 +48,11 @@ def evaluate(code):
       if command == ".": sys.stdout.write(chr(cells[cellptr]))
       if command == ",": cells[cellptr] = ord(getch.getch())
     
-      codeptr += 1
       codeExecList.append(command)
 
     if command == "(": comment = True
     if command == ")": comment = False
+    codeptr += 1
 
 
 def cleanup(code):
