@@ -18,7 +18,7 @@ def evaluate(code):
   code     = cleanup(list(code))
   bracemap = buildbracemap(code)
 
-  cells, codeptr, cellptr, codeExecList, queue = [0], 0, 0, [], []
+  cells, codeptr, cellptr, codeExecList, queue, comment = [0], 0, 0, [], [], False
   while codeptr < len(code):
     command = code[codeptr]
 
@@ -39,12 +39,12 @@ def evaluate(code):
       if command == "i":
         queue.append(cells[cellptr])
 
-      if command = "o":
+      if command == "o":
         queue.pop(0)
       
       if command == "/":
         filename = sys.argv[1]
-        print("Program Trace (ID: " + str(cellptr) + "-" + str(cells[cellptr]) + "-" + str(codeptr) + ") At " + str(codeptr) + " in " + filename + ". This Trace Was Not Called Because of An Error In The Program.")
+        print("Program Trace (ID: " + str(cellptr) + "-" + str(cells[cellptr]) + "-" + str(codeptr) + ")" + " in " + filename + ". This Trace Was Not Called Because of An Error In The Program.")
         print("This is the Program Code That Was Executed: ")
         for item in codeExecList:
           print(item, end="")
